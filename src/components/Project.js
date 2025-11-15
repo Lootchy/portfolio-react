@@ -195,7 +195,7 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
                       (entries) => {
                         entries.forEach((entry) => {
                           if (entry.isIntersecting) {
-                            entry.target.style.animation = `fadeInUp 0.6s ease-out ${idx * 0.15}s forwards`;
+                            entry.target.style.animation = `fadeInUp 0.6s ease-out forwards`;
                             entry.target.style.opacity = '0';
                             observer.unobserve(entry.target);
                           }
