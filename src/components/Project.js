@@ -191,7 +191,9 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-6 py-3 rounded-xl font-bold transition-all transform hover:scale-105"
                 >
                     <Gamepad2 size={20} />
-                    Play on Itch.io
+                    {project.link.includes('discord') ? 'Join Discord' : 
+                    project.link.includes('github') ? 'View on GitHub' : 
+                    'Play on Itch.io'}
                     <ExternalLink size={16} />
                 </a>
                 )}
