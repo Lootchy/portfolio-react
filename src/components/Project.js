@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Gamepad2, ExternalLink } from 'lucide-react';
 
 import tedimoImg from '../assets/images/Tedimo.png';
@@ -6,9 +6,15 @@ import drpImg from '../assets/images/drp.png';
 import spendtimeImg from '../assets/images/spendtime.png';
 import foodquestImg from '../assets/images/foodquest.png';
 import rottenPixelsImg from '../assets/images/rottenPixels.png';
+import breachbornImg from '../assets/images/breachborn.png';
+import sfmlImg from '../assets/images/roguelike.png';
+import engineImg from '../assets/images/customengine.png';
+
 import TypeWriter from './TypeWriter';
 
 export default function Projects({ createParticle, mousePos, playHoverSound }) {
+  const [expandedCards, setExpandedCards] = useState([]);
+
   const projects = [
     {
       title: "Drowned",
@@ -68,10 +74,18 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
     },
     {
       title: "Custom Engine Game",
-      description: "Built on my own custom engine powered by DirectX 12, this game is a fast-paced and minimalist space shooter focused on pure arcade fun.",
-      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=600&fit=crop",
+      description: "Built on my own custom engine powered by DirectX 12 with ECS, this game is a fast-paced and minimalist space shooter focused on pure arcade fun.",
+      image: engineImg,
       engine: "DirectX 12",
       tags: ["C++", "Shooter", "Space"],
+      link: null
+    },
+    {
+      title: "SFML Roguelike",
+      description: "A fast-paced 2D top-down roguelike / Vampire Survivors–style shooter built with SFML: kill waves of monsters to level up and earn money, then spend earnings to buy new weapons and upgrade them for deeper progression and chaotic replayability.",
+      image: sfmlImg,
+      engine: "C++ Scratch",
+      tags: ["Roguelike", "Shooter", "2D", "Vampire Survivor"],
       link: null
     },
     {
@@ -94,17 +108,35 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
           As they explore, players uncover story fragments and lore pieces that reveal the mysteries of the world of Breachborn, encouraging immersion and rewarding curiosity.
         </>
       ),
-      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=600&fit=crop",
+      image: breachbornImg,
       engine: "Unreal Engine 5",
       tags: ["Roguelike", "Exploration", "City Building", "Combat", "Deep Story", "Survival", "Procedural", "3D"],
       link: "https://discord.gg/4crSvq6d"
     }
   ];
 
+  const truncateText = (text, maxLength = 200) => {
+    if (typeof text !== 'string') {
+      // Si c'est du JSX (comme Breachborn), retourne tel quel
+      return text;
+    }
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+  };
+
+  const toggleExpand = (idx) => {
+    setExpandedCards(prev => 
+      prev.includes(idx) 
+        ? prev.filter(i => i !== idx) 
+        : [...prev, idx]
+    );
+  };
+
   const getEngineColor = (engine) => {
     if (engine.includes("Unity")) return "bg-purple-600/90";
     if (engine.includes("Unreal")) return "bg-indigo-600/90";
     if (engine.includes("DirectX 12")) return "bg-cyan-600/90";
+    if (engine.includes("C++ Scratch")) return "bg-green-600/90";
     return "bg-blue-600/90";
   };
 
@@ -116,6 +148,7 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
       "FPS": "bg-blue-600/30 border-blue-500/50",
       "Roguelike": "bg-green-600/30 border-green-500/50",
       "3D": "bg-red-600/30 border-red-500/50",
+      "2D": "bg-orange-600/30 border-orange-500/50",
       "Puzzle": "bg-blue-600/30 border-blue-500/50",
       "Story-Driven": "bg-purple-600/30 border-purple-500/50",
       "Platformer": "bg-blue-600/30 border-blue-500/50",
@@ -123,8 +156,15 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
       "Casual": "bg-green-600/30 border-green-500/50",
       "Relaxing": "bg-cyan-600/30 border-cyan-500/50",
       "C++": "bg-red-600/30 border-red-500/50",
-      "Shooter": "bg-blue-600/30 border-blue-500/50",
-      "Space": "bg-green-600/30 border-green-500/50"
+      "Shooter": "bg-yellow-600/30 border-yellow-500/50",
+      "Space": "bg-indigo-600/30 border-indigo-500/50",
+      "Combat": "bg-red-600/30 border-red-500/50",
+      "Procedural": "bg-violet-600/30 border-violet-500/50",
+      "Deep Story": "bg-purple-600/30 border-purple-500/50",
+      "City Building": "bg-amber-600/30 border-amber-500/50",
+      "Survival": "bg-lime-600/30 border-lime-500/50",
+      "ECS": "bg-teal-600/30 border-teal-500/50",
+      "Vampire Survivor": "bg-rose-600/30 border-rose-500/50"
     };
     return colors[tag] || "bg-gray-600/30 border-gray-500/50";
   };
@@ -146,14 +186,32 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {projects.map((project, idx) => (
-            <div 
-              key={idx}
-              className="group relative bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden hover:border-purple-400/60 transition-all hover:scale-105 cursor-pointer"
-              onMouseEnter={() => {
-                createParticle(mousePos.x, mousePos.y)
-                playHoverSound();
-              }}
-            >
+              <div 
+                key={idx}
+                ref={(el) => {
+                  if (el && !el.dataset.observed) {
+                    el.dataset.observed = 'true';
+                    const observer = new IntersectionObserver(
+                      (entries) => {
+                        entries.forEach((entry) => {
+                          if (entry.isIntersecting) {
+                            entry.target.style.animation = `fadeInUp 0.6s ease-out ${idx * 0.15}s forwards`;
+                            entry.target.style.opacity = '0';
+                            observer.unobserve(entry.target);
+                          }
+                        });
+                      },
+                      { threshold: 0.05, rootMargin: '0px 0px 50px 0px' }
+                    );
+                    observer.observe(el);
+                  }
+                }}
+                className="group relative bg-gradient-to-br from-purple-900/40 to-pink-900/40 backdrop-blur-sm border border-purple-500/30 rounded-3xl overflow-hidden hover:border-purple-400/60 transition-all hover:scale-105 cursor-pointer opacity-0"
+                onMouseEnter={() => {
+                  createParticle(mousePos.x, mousePos.y);
+                  playHoverSound();
+                }}
+              >
               <div className="relative h-80 overflow-hidden">
                 <img 
                   src={project.image} 
@@ -171,9 +229,36 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
                   {project.title}
                 </h3>
                 
-                <p className="text-gray-300 mb-6 leading-relaxed">
-                  {project.description}
-                </p>
+                <div className="text-gray-300 mb-6 leading-relaxed">
+                  {typeof project.description === 'string' ? (
+                    <>
+                      {expandedCards.includes(idx) 
+                        ? project.description 
+                        : truncateText(project.description, 200)
+                      }
+                      {project.description.length > 200 && (
+                        <button
+                          onClick={() => toggleExpand(idx)}
+                          className="text-purple-400 hover:text-purple-300 font-semibold ml-2 transition-colors"
+                        >
+                          {expandedCards.includes(idx) ? 'Read less' : 'Read more'}
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className={`${!expandedCards.includes(idx) ? 'line-clamp-4' : ''}`}>
+                        {project.description}
+                      </div>
+                      <button
+                        onClick={() => toggleExpand(idx)}
+                        className="text-purple-400 hover:text-purple-300 font-semibold mt-2 transition-colors block"
+                      >
+                        {expandedCards.includes(idx) ? 'Read less' : 'Read more'}
+                      </button>
+                    </>
+                  )}
+                </div>
 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags.map((tag, i) => (
@@ -202,6 +287,30 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
           ))}
         </div>
       </div>
+
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out;
+        }
+
+        .line-clamp-4 {
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </section>
   );
 }

@@ -44,7 +44,7 @@ export default function Home({ terminalText, showCursor, setActiveSection, creat
           </div>
 
           <p className="text-2xl text-gray-300 mb-4">
-            Game Developer, Student & Gamer
+            French game geveloper, student & gamer
           </p>
           <p className="text-lg text-gray-400 mb-8 leading-relaxed">
             21 years old • 8 years in programming since lower secondary school<br/>
