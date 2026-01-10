@@ -53,10 +53,10 @@ export default function Home({ terminalText, showCursor, setActiveSection, creat
 
           <div className="flex flex-wrap gap-4 mb-8">
             <div className="bg-purple-500/20 border border-purple-500/50 px-6 py-3 rounded-full">
-              <span className="text-purple-300 font-semibold">🎮 Unreal Engine Specialist</span>
+              <span className="text-purple-300 font-semibold">Unreal Engine Specialist</span>
             </div>
             <div className="bg-cyan-500/20 border border-cyan-500/50 px-6 py-3 rounded-full">
-              <span className="text-cyan-300 font-semibold">💻 C++ Developer</span>
+              <span className="text-cyan-300 font-semibold">C++ Developer</span>
             </div>
           </div>
 

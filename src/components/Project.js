@@ -182,7 +182,7 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
             />
           </span>
         </h2>
-        <p className="text-center text-gray-400 mb-16 text-lg">Discover my creations on Itch.io</p>
+        <p className="text-center text-gray-400 mb-16 text-lg">Discover all my creations on Itch.io</p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {projects.map((project, idx) => (
