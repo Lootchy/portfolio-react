@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal } from 'lucide-react';
+import { Gamepad, Keyboard, Square, SquareActivity, SquarePi, Sword, Terminal, TreeDeciduous } from 'lucide-react';
 import Home from './components/Home';
 import Projects from './components/Project';
 import Skills from './components/skills';
@@ -188,7 +188,7 @@ export default function ZianPortfolio() {
       <nav className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-purple-500/20 mt-1">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3 text-2xl font-bold">
-            <Terminal className="text-purple-400" size={28} />
+            <Keyboard className="text-purple-400" size={28} />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
               ZIAN.DEV
             </span>
