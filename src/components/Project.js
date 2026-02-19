@@ -9,6 +9,7 @@ import rottenPixelsImg from '../assets/images/rottenPixels.png';
 import breachbornImg from '../assets/images/breachborn.png';
 import sfmlImg from '../assets/images/roguelike.png';
 import engineImg from '../assets/images/customengine.png';
+import spaceImg from '../assets/images/spacerush.png';
 
 import TypeWriter from './TypeWriter';
 
@@ -112,6 +113,14 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
       engine: "Unreal Engine 5",
       tags: ["Roguelike", "Exploration", "City Building", "Combat", "Deep Story", "Survival", "Procedural", "3D"],
       link: "https://discord.gg/4crSvq6d"
+    },
+    {
+      title: "Space Rush",
+      description: "In this space-themed puzzle game, you are the last hope of a ship on the verge of explosion: explore its modules, solve puzzles, and uncover the four digits of the security code before the reactor goes critical.",
+      image: spacerush,
+      engine: "Unreal Engine 5",
+      tags: ["Puzzle", "Exploration", "3D", "Space"],
+      link: "https://lootchy.itch.io/space-rush"
     }
   ];
 
