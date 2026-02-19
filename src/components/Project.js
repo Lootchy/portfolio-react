@@ -117,7 +117,7 @@ export default function Projects({ createParticle, mousePos, playHoverSound }) {
     {
       title: "Space Rush",
       description: "In this space-themed puzzle game, you are the last hope of a ship on the verge of explosion: explore its modules, solve puzzles, and uncover the four digits of the security code before the reactor goes critical.",
-      image: spacerush,
+      image: spaceImg,
       engine: "Unreal Engine 5",
       tags: ["Puzzle", "Exploration", "3D", "Space"],
       link: "https://lootchy.itch.io/space-rush"
